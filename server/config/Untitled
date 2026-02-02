@@ -1,0 +1,8 @@
+module.exports = {
+
+    googleClientID: '739545636465-k96hfheh0oo5338afjdremn8nb8p128s.apps.googleusercontent.com',
+    googleClientSecret: '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',
+    mongoURI: 'mongodb+srv://ysxiao233_db_user:1dYFAKapdnJEgKgX@cluster0.uldqpwd.mongodb.net/emailydb?appName=Cluster0',
+    cookieKey: '1234567890'
+
+}
