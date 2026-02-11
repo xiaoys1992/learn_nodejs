@@ -2,7 +2,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const keys = require('../config/keys');
 const mongoose = require('mongoose');
-const cookieSession = require('cookie-session');
+// const cookieSession = require('cookie-session');
 const User = mongoose.model('users');
 
 passport.serializeUser((user,done)=>{
@@ -24,21 +24,20 @@ passport.use(new GoogleStrategy({
     clientSecret: keys.googleClientSecret,
     callbackURL: '/auth/google/callback',
     proxy: true
-},(accessToken,refreshToken,profile,done)=>{
+},async(accessToken,refreshToken,profile,done)=>{
 
-    User.findOne({googleId: profile.id}).then((existingUser)=>{
+    const existingUser=await User.findOne({googleId: profile.id});
 
         if(existingUser){
 
-            done(null, existingUser);
+           return  done(null, existingUser);
            
-        }else{
-
-            new User({googleId: profile.id}).save().
-            then((user)=>done(null, user));
-
         }
-    })
-  
+
+
+          const user= await  new User({googleId: profile.id}).save();
+          done(null, user);
+
+
 
 }));

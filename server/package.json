@@ -9,16 +9,25 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "server": "nodemon index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^2.2.2",
+    "concurrently": "^9.2.1",
     "cookie-session": "^2.1.1",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "mongoose": "^9.1.5",
     "nodemon": "^3.1.11",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^5.3.4",
+    "redux": "^5.0.1",
+    "stripe": "^20.3.1"
   }
 }
