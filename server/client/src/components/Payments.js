@@ -33,7 +33,7 @@ import axios from 'axios';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
-const CheckoutForm = ({ confirmPayment }) => {
+const CheckoutForm = ({ onClose }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -42,8 +42,24 @@ const CheckoutForm = ({ confirmPayment }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     
-    
-   
+    if (!stripe || !elements) return;
+
+    setIsProcessing(true);
+    setErrorMessage('');
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/api/stripeconfirm`,
+      },
+    });
+
+    if (error) {
+      setErrorMessage(error.message);
+      setIsProcessing(false);
+    } else {
+      onClose(); // Close popup after successful payment
+    }
   };
 
   return (
@@ -52,6 +68,9 @@ const CheckoutForm = ({ confirmPayment }) => {
       {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
       <button type="submit" disabled={isProcessing || !stripe} className="btn">
         {isProcessing ? 'Processing...' : 'Pay Now'}
+      </button>
+      <button type="button" onClick={onClose} className="btn" style={{ marginLeft: '10px' }}>
+        Cancel
       </button>
     </form>
   );
@@ -132,6 +151,7 @@ class Payments extends Component {
           }}
         >
           <CheckoutForm 
+          onClose={this.handleClosePopup}
           />
         </Elements>
       );
