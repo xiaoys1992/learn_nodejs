@@ -10,6 +10,8 @@ const bodyParser = require('body-parser');
 
 require('./models/User');
 require('./service/passport');
+require('./models/surveys');
+
 
 
 
@@ -43,6 +45,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 if (process.env.NODE_ENV === 'production'){
     //express will serve up production assets like our main.js file, or main.css file!

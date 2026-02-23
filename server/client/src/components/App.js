@@ -7,8 +7,8 @@ import Header from "./Header";
 import Landing from "./Landing";
 
 
-const Dashboard=()=> <h2>Dashboard</h2>;
-const SurveyNew=()=> <h2>SurveyNew</h2>;
+import Dashboard from "./Dashboard";
+import SurveyNew from "./surveys/surveyNew";
 
 
 
@@ -25,7 +25,7 @@ componentDidMount(){
         <div className="container">
             <BrowserRouter><div>
                 <Header />
-                <Route exactpath="/surveys" component={Dashboard} />
+                <Route exact path="/surveys" component={Dashboard} />
                 <Route exact path="/" component={Landing} />
                 <Route path="/surveys/new" component={SurveyNew} />
         
